@@ -4,6 +4,8 @@
   "description": "Server and database of E-Commerce products API",
   "main": "index.js",
   "scripts": {
+    "db-init": "psql -U sdcadmin -d sdcdb -a -f server/postgresqlSchema.sql",
+    "db-seed": "node server/dbSeed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Xintong Mi",
@@ -13,6 +15,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "papaparse": "^5.4.1",
+    "pg": "^8.11.0"
   }
 }
