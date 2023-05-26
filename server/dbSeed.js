@@ -97,8 +97,9 @@ const main = async () => {
   //   await seedDatabase(config, models.pool);
   // }
   // client.release();
+
   await models.pool.query("BEGIN");
-  const res = await seedDatabase(configs[1], models.pool);
+  const res = await seedDatabase(configs[2], models.pool);
   await models.pool.query("COMMIT");
   models.pool.end();
 };
