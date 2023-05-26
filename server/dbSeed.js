@@ -1,9 +1,14 @@
+const dbConfig = require("./config/db.config.js");
+const fs = require("fs");
+const models = require("./models");
+const { parse } = require("csv-parse");
+
 const configs = [
   {
     tableName: "product",
     filePath: "./seeds/testProduct.csv",
     query:
-      "INSERT INTO product (id, name, slogan, description, category, default_price) VALUES ($1, $2, $3, $4, $5, $6)",
+      "INSERT INTO product (id, name, slogan, description, category, default_price, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
   },
   {
     tableName: "feature",
@@ -21,7 +26,7 @@ const configs = [
     tableName: "style",
     filePath: "./seeds/testStyles.csv",
     query:
-      "INSERT INTO style (id, product_id, name, sale_price, original_price, default_style) VALUES ($1, $2, $3, $4, $5, $6)",
+      "INSERT INTO style (id, product_id, name, sale_price, original_price, default_style, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
   },
   {
     tableName: "sku",
@@ -36,32 +41,40 @@ const configs = [
       "INSERT INTO photo (id, style_id, url, thumbnail_url) VALUES ($1, $2, $3, $4)",
   },
 ];
-const dbConfig = require("./config/db.config.js");
-const fs = require("fs");
-const models = require("./models");
-const papa = require("papaparse");
 
-const seedDatabase = async ({ tableName, filePath, query }, client) => {
-  try {
-    const readStream = fs.createReadStream(filePath);
-
-    papa.parse(readStream, {
-      header: true, // To skip header
-      step: (row) => {
-        const rowObj = row.data;
-        const rowArr = Object.keys(row.data).map((key) => row.data[key]);
-
-        client.query(query, rowArr).catch((err) => {
-          console.error(`row data insert to ${tableName} table failed`);
+const seedDatabase = ({ tableName, filePath, query }, pool) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      fs.createReadStream(filePath)
+        .pipe(
+          parse({
+            cast: true,
+            delimiter: ",",
+            from_line: 2,
+          })
+        )
+        .on("data", (row) => {
+          let treatedRow = row.map((v) => (v === "null" ? null : v));
+          if (tableName === "product" || tableName === "style") {
+            const now = new Date();
+            treatedRow = treatedRow.concat([now, now]);
+          }
+          pool.query(query, treatedRow).then(() => {
+            setTimeout(() => {
+              resolve();
+            }, 1000);
+          });
+        })
+        .on("error", (err) => {
+          console.error(err.message);
+        })
+        .on("end", () => {
+          console.log(`Seeding table ${tableName} completed`);
         });
-      },
-      complete: (results, file) => {
-        console.log(`${tableName} table created successfully!`);
-      },
-    });
-  } catch (err) {
-    console.error(`Error in seeding table ${tableName}: ${err}`);
-  }
+    } catch (err) {
+      reject(new Error(`Error in seeding table ${tableName}: ${err}`));
+    }
+  });
 };
 
 const cleanDatabase = async (client) => {
@@ -72,12 +85,12 @@ const cleanDatabase = async (client) => {
 };
 
 const main = async () => {
-  const client = await models.pool.connect();
-  await cleanDatabase(client);
+  await cleanDatabase(models.pool);
   for (const config of configs) {
-    await seedDatabase(config, client);
+    const res = await seedDatabase(config, models.pool);
   }
-  client.end();
+  // client.release();
+  models.pool.end();
 };
 
 main();
