@@ -11,9 +11,9 @@ CREATE TABLE product (
   slogan VARCHAR(255),
   description TEXT,
   category VARCHAR(50),
-  default_price NUMERIC(10, 2),
+  default_price NUMERIC(15, 2),
   created_at TIMESTAMP,
-  updated_at TIMESTAMP,
+  updated_at TIMESTAMP
 );
 
 CREATE TABLE feature (
@@ -38,8 +38,8 @@ CREATE TABLE related (
 CREATE TABLE style (
   id INT PRIMARY KEY NOT NULL,
   name VARCHAR(50) NOT NULL,
-  original_price NUMERIC(10, 2) NOT NULL,
-  sale_price NUMERIC(10, 2),
+  original_price NUMERIC(15, 2) NOT NULL,
+  sale_price NUMERIC(15, 2),
   default_style BOOLEAN,
   created_at TIMESTAMP,
   updated_at TIMESTAMP,
@@ -60,7 +60,7 @@ CREATE TABLE photo (
 );
 
 CREATE TABLE sku (
-  id INT PRIMARY KEYNOT NULL,
+  id INT PRIMARY KEY NOT NULL,
   quantity INT NOT NULL,
   size VARCHAR(50) NOT NULL,
   style_id INT NOT NULL,

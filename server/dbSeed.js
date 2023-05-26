@@ -6,37 +6,43 @@ const { parse } = require("csv-parse");
 const configs = [
   {
     tableName: "product",
-    filePath: "./seeds/testProduct.csv",
+    // filePath: "./seeds/testProduct.csv",
+    filePath: "./seeds/product.csv",
     query:
       "INSERT INTO product (id, name, slogan, description, category, default_price, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
   },
   {
     tableName: "feature",
-    filePath: "./seeds/testfeatures.csv",
+    // filePath: "./seeds/testfeatures.csv",
+    filePath: "./seeds/features.csv",
     query:
       "INSERT INTO feature (id, product_id, feature, value) VALUES ($1, $2, $3, $4)",
   },
   {
     tableName: "related",
-    filePath: "./seeds/testRelated.csv",
+    // filePath: "./seeds/testRelated.csv",
+    filePath: "./seeds/related.csv",
     query:
       "INSERT INTO related (id, current_product_id, related_product_id) VALUES ($1, $2, $3)",
   },
   {
     tableName: "style",
-    filePath: "./seeds/testStyles.csv",
+    // filePath: "./seeds/testStyles.csv",
+    filePath: "./seeds/styles.csv",
     query:
       "INSERT INTO style (id, product_id, name, sale_price, original_price, default_style, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
   },
   {
     tableName: "sku",
-    filePath: "./seeds/testSkus.csv",
+    // filePath: "./seeds/testSkus.csv",
+    filePath: "./seeds/skus.csv",
     query:
       "INSERT INTO sku (id, style_id, size, quantity) VALUES ($1, $2, $3, $4)",
   },
   {
     tableName: "photo",
     filePath: "./seeds/testPhotos.csv",
+    filePath: "./seeds/photos.csv",
     query:
       "INSERT INTO photo (id, style_id, url, thumbnail_url) VALUES ($1, $2, $3, $4)",
   },
@@ -59,16 +65,15 @@ const seedDatabase = ({ tableName, filePath, query }, pool) => {
             const now = new Date();
             treatedRow = treatedRow.concat([now, now]);
           }
-          pool.query(query, treatedRow).then(() => {
-            setTimeout(() => {
-              resolve();
-            }, 1000);
-          });
+          pool.query(query, treatedRow).then(() => {});
         })
         .on("error", (err) => {
           console.error(err.message);
         })
         .on("end", () => {
+          setTimeout(() => {
+            resolve();
+          }, 10000);
           console.log(`Seeding table ${tableName} completed`);
         });
     } catch (err) {
@@ -79,17 +84,22 @@ const seedDatabase = ({ tableName, filePath, query }, pool) => {
 
 const cleanDatabase = async (client) => {
   const dbs = ["feature", "related", "sku", "photo", "style", "product"];
+  // const dbs = ["related", "sku", "photo", "style"];
   for (let db of dbs) {
     await client.query(`DELETE FROM ${db}`);
   }
 };
 
 const main = async () => {
-  await cleanDatabase(models.pool);
-  for (const config of configs) {
-    const res = await seedDatabase(config, models.pool);
-  }
+  // await cleanDatabase(models.pool);
+  // for (const config of configs) {
+  //   console.log("Start reading", config.tableName);
+  //   await seedDatabase(config, models.pool);
+  // }
   // client.release();
+  await models.pool.query("BEGIN");
+  const res = await seedDatabase(configs[1], models.pool);
+  await models.pool.query("COMMIT");
   models.pool.end();
 };
 
