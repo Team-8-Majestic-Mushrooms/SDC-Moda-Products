@@ -11,12 +11,14 @@ module.exports.getAll = (page, count) => {
 };
 
 module.exports.getOne = (id) => {
-  const queryStr = `SELECT product.id, name, slogan, description, \
-    category, default_price, created_at, updated_at, feature, value \
+  const queryStr = `SELECT product.id AS id, name, slogan, description, \
+    category, default_price, created_at, updated_at, \
+    jsonb_agg(feature.*) AS features \
     FROM product \
     JOIN feature \
     ON product.id = ${id} \
-    AND feature.product_id = ${id}`;
+    AND feature.product_id = ${id} \
+    GROUP BY product.id`;
 
   return pool.query(queryStr);
 };

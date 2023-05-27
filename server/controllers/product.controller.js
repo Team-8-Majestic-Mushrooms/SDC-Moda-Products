@@ -13,15 +13,11 @@ module.exports.getOne = (req, res) => {
   models.product
     .getOne(id)
     .then(({ rows }) => {
-      const { feature, value, ...data } = rows[0];
-      data.features = [];
-      rows.forEach((row) => {
-        data.features.push({
-          feature: row.feature,
-          value: row.value,
-        });
+      rows[0].features = rows[0].features.map((value) => {
+        const { id, product_id, ...pair } = value;
+        return pair;
       });
-      res.status(200).json(data);
+      res.status(200).json(rows[0]);
     })
     .catch((err) => {
       res.sendStatus(400);
