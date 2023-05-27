@@ -13,7 +13,7 @@ module.exports.getAll = (page, count) => {
 module.exports.getOne = (id) => {
   const queryStr = `SELECT product.id AS id, name, slogan, description, \
     category, default_price, created_at, updated_at, \
-    jsonb_agg(feature.*) AS features \
+    jsonb_agg(jsonb_build_object('feature', feature.feature, 'value', feature.value)) AS features \
     FROM product \
     JOIN feature \
     ON product.id = ${id} \

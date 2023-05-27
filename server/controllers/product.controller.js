@@ -13,10 +13,6 @@ module.exports.getOne = (req, res) => {
   models.product
     .getOne(id)
     .then(({ rows }) => {
-      rows[0].features = rows[0].features.map((value) => {
-        const { id, product_id, ...pair } = value;
-        return pair;
-      });
       res.status(200).json(rows[0]);
     })
     .catch((err) => {
