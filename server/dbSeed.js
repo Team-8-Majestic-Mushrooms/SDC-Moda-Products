@@ -1,6 +1,6 @@
 const dbConfig = require("./config/db.config.js");
 const fs = require("fs");
-const models = require("./models");
+const pool = require("./models").pool;
 const { parse } = require("csv-parse");
 
 const configs = [
@@ -73,7 +73,7 @@ const seedDatabase = ({ tableName, filePath, query }, pool) => {
         .on("end", () => {
           setTimeout(() => {
             resolve();
-          }, 10000);
+          }, 1000);
           console.log(`Seeding table ${tableName} completed`);
         });
     } catch (err) {
@@ -91,17 +91,17 @@ const cleanDatabase = async (client) => {
 };
 
 const main = async () => {
-  // await cleanDatabase(models.pool);
+  // await cleanDatabase(pool);
   // for (const config of configs) {
   //   console.log("Start reading", config.tableName);
-  //   await seedDatabase(config, models.pool);
+  //   await seedDatabase(config, pool);
   // }
   // client.release();
 
-  await models.pool.query("BEGIN");
-  const res = await seedDatabase(configs[2], models.pool);
-  await models.pool.query("COMMIT");
-  models.pool.end();
+  await pool.query("BEGIN");
+  const res = await seedDatabase(configs[2], pool);
+  await pool.query("COMMIT");
+  pool.end();
 };
 
 main();

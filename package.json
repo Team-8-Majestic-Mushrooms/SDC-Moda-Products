@@ -6,6 +6,7 @@
   "scripts": {
     "db-init": "psql -U sdcadmin -d sdcdb -a -f server/postgresqlSchema.sql",
     "db-seed": "node server/dbSeed.js --max_old_space_size=7000",
+    "server-dev": "npx nodemon --watch server server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Xintong Mi",
