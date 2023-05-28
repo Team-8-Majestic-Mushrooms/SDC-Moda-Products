@@ -34,15 +34,15 @@ describe('Server integration test', () => {
       });
   });
 
-  it.only('GET /products should handle pagination correctly', (done) => {
+  it('GET /products should handle pagination correctly', (done) => {
     supertest(server)
       .get('/products')
-      .query({ page: 1, count: 2 })
+      .query({ page: 2, count: 2 })
       .expect(200)
       .then((response) => {
         const products = JSON.parse(response.text);
         expect(products.length).toBe(2);
-        // expect(products[0].id).toBe(485620);
+        expect(products[0].id).toBe(3);
         done();
       });
   });
@@ -58,31 +58,28 @@ describe('Server integration test', () => {
         done();
       });
   });
+  it('GET /products/:product_id/styles should have correct route and response with correct data', (done) => {
+    const productID = '34223';
+    supertest(server)
+      .get(`/products/${productID}/styles`)
+      .then((response) => {
+        const products = JSON.parse(response.text);
+        expect(response.status).toBe(200);
+        expect(products.product_id).toBe('34223');
+        expect(products.results).toHaveLength(2);
+        done();
+      });
+  });
+
+  it('GET /products/:product_id/related should have correct route and response with correct data', (done) => {
+    const productID = '34223';
+    supertest(server)
+      .get(`/products/${productID}/related`)
+      .then((response) => {
+        const products = JSON.parse(response.text);
+        expect(response.status).toBe(200);
+        expect(products).toHaveLength(5);
+        done();
+      });
+  });
 });
-
-// it('GET /products/:product_id/styles should have correct route and response with correct data', (done) => {
-//   pool.query = () => Promise.resolve({ rows: mockStyles });
-//   const product_id = '34223';
-//   supertest(server)
-//     .get(`/products/${product_id}/styles`)
-//     .then((response) => {
-//       const products = JSON.parse(response.text);
-//       expect(response.status).toBe(200);
-//       expect(products.product_id).toBe('34223');
-//       expect(products.results).toHaveLength(2);
-//       done();
-//     });
-// });
-
-// it('GET /products/:product_id/related should have correct route and response with correct data', (done) => {
-//   pool.query = () => Promise.resolve({ rows: [{ related_products: mockRelated }] });
-//   const product_id = '5';
-//   supertest(server)
-//     .get(`/products/${product_id}/related`)
-//     .then((response) => {
-//       const products = JSON.parse(response.text);
-//       expect(response.status).toBe(200);
-//       expect(products).toHaveLength(4);
-//       done();
-//     });
-// });
