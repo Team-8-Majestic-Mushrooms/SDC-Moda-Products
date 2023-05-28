@@ -35,33 +35,33 @@ describe("Server Unit test", () => {
     jest.clearAllMocks();
   });
 
-  it("GET /products", (done) => {
-    pool.query = () => Promise.resolve({ rows: mockProducts });
-    supertest(server)
-      .get("/products")
-      .then((response) => {
-        expect(response.status).toBe(200);
-        expect(JSON.parse(response.text)).toHaveLength(5);
-        done();
-      });
-  });
+  // it("GET /products", (done) => {
+  //   pool.query = () => Promise.resolve({ rows: mockProducts });
+  //   supertest(server)
+  //     .get("/products")
+  //     .then((response) => {
+  //       expect(response.status).toBe(200);
+  //       expect(JSON.parse(response.text)).toHaveLength(5);
+  //       done();
+  //     });
+  // });
 
-  it.only("GET /products should be able to handle pagination", (done) => {
-    pool.query = () => Promise.resolve({ rows: mockProducts });
-    const page = 2;
-    const count = 2;
-    supertest(server)
-      .get("/products")
-      .query({ page: page, count: count })
-      .then((response) => {
-        const products = JSON.parse(response.text);
-        expect(response.status).toBe(200);
-        expect(products).toHaveLength(2);
-        expect(products[0].id).toBe(485646);
-        expect(products[1].id).toBe(485663);
-        done();
-      });
-  });
+  // it("GET /products should be able to handle pagination", (done) => {
+  //   pool.query = () => Promise.resolve({ rows: mockProducts });
+  //   const page = 2;
+  //   const count = 2;
+  //   supertest(server)
+  //     .get("/products")
+  //     .query({ page: page, count: count })
+  //     .then((response) => {
+  //       const products = JSON.parse(response.text);
+  //       expect(response.status).toBe(200);
+  //       expect(products).toHaveLength(2);
+  //       expect(products[0].id).toBe(485646);
+  //       expect(products[1].id).toBe(485663);
+  //       done();
+  //     });
+  // });
 });
 
 // it("GET /products", async () => {

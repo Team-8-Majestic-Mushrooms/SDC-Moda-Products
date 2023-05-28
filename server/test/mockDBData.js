@@ -56,3 +56,57 @@ module.exports.mockProducts = [
     updated_at: "2023-05-26T04:04:42.463Z",
   },
 ];
+
+module.exports.mockStyles = [
+  {
+    style_id: 67347,
+    name: '"Blue"',
+    original_price: "411.00",
+    sale_price: null,
+    default: false,
+    photos: [
+      {
+        url: '"https://images.unsplash.com/photo-1555274175-6cbf6f3b137b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"',
+        thumbnail_url:
+          '"https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80"',
+      },
+      {
+        url: '"https://images.unsplash.com/photo-1555274175-6cbf6f3b137b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"',
+        thumbnail_url:
+          '"https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80"',
+      },
+    ],
+    skus: {
+      388537: {
+        size: '"XS"',
+        quantity: 44,
+      },
+      388538: {
+        size: '"S"',
+        quantity: 21,
+      },
+    },
+  },
+  {
+    style_id: 67348,
+    name: '"Grey"',
+    original_price: "411.00",
+    sale_price: null,
+    default: false,
+    photos: [
+      {
+        url: '"https://images.unsplash.com/photo-1517720359744-6d12f8a09b10?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1567&q=80"',
+        thumbnail_url:
+          '"https://images.unsplash.com/photo-1549540806-76ce9007b674?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80"',
+      },
+    ],
+    skus: {
+      388543: {
+        size: '"XS"',
+        quantity: 53,
+      },
+    },
+  },
+];
+
+module.exports.mockRelated = [1, 2, 3, 4];
