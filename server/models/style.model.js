@@ -1,8 +1,7 @@
 const pool = require("./index.js").pool;
 
 module.exports.getAll = (productId) => {
-  try {
-    const queryStr = `SELECT style.id AS style_id, name, original_price, sale_price, default_style AS default, \
+  const queryStr = `SELECT style.id AS style_id, name, original_price, sale_price, default_style AS default, \
       jsonb_agg(jsonb_build_object('thumbnail_url', thumbnail_url, 'url', url)) AS photos, \
       jsonb_object_agg(sku.id, jsonb_build_object('quantity', quantity, 'size', size)) AS skus \
       FROM style \
@@ -12,8 +11,10 @@ module.exports.getAll = (productId) => {
       JOIN sku \
       ON style.id = sku.style_id
       GROUP BY style.id`;
-    return pool.query(queryStr);
-  } catch (err) {
-    console.error("Query failed", err.message);
-  }
+  return pool
+    .query(queryStr)
+    .then((queryRes) => queryRes.rows)
+    .catch((err) => {
+      console.error("Query failed - get all styles", err.message);
+    });
 };

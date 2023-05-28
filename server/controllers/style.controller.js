@@ -4,12 +4,12 @@ module.exports.getAll = (req, res) => {
   const productId = req.params.product_id;
   models.style
     .getAll(productId)
-    .then(({ rows }) => {
+    .then((queryRes) => {
       const data = {
         product_id: productId,
         results: [],
       };
-      rows.forEach((row) => {
+      queryRes.forEach((row) => {
         data.results.push(row);
       });
       res.status(200).json(data);

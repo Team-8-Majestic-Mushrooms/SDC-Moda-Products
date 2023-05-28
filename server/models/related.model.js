@@ -1,12 +1,13 @@
 const pool = require("./index.js").pool;
 
 module.exports.getAll = (id) => {
-  try {
-    const queryStr = `SELECT current_product_id, related_product_id \
+  const queryStr = `SELECT jsonb_agg(related_product_id) as related_products \
       FROM related \
       WHERE current_product_id = ${id}`;
-    return pool.query(queryStr);
-  } catch (err) {
-    console.error("Query failed", err.message);
-  }
+  return pool
+    .query(queryStr)
+    .then((queryRes) => queryRes.rows[0].related_products)
+    .catch((err) => {
+      console.error("Query failed: get related", err.message);
+    });
 };

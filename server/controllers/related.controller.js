@@ -4,10 +4,7 @@ module.exports.getAll = (req, res) => {
   const id = req.params.product_id;
   models.related
     .getAll(id)
-    .then(({ rows }) => {
-      data = rows.map((row) => {
-        return row.related_product_id;
-      });
+    .then((data) => {
       res.status(200).json(data);
     })
     .catch((err) => {

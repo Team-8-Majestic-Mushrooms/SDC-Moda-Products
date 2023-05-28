@@ -10,6 +10,4 @@ app.use(express.json());
 const router = require("./routes.js");
 app.use("/products", router);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
-});
+module.exports = app;

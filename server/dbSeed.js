@@ -1,6 +1,6 @@
 const dbConfig = require("./config/db.config.js");
 const fs = require("fs");
-const pool = require("./models").pool;
+const { pool } = require("./models");
 const { parse } = require("csv-parse");
 
 const configs = [
@@ -97,11 +97,14 @@ const main = async () => {
   //   await seedDatabase(config, pool);
   // }
   // client.release();
-
-  await pool.query("BEGIN");
-  const res = await seedDatabase(configs[2], pool);
-  await pool.query("COMMIT");
+  console.log("START", performance.now());
+  const client = await pool.connect();
+  await client.query("BEGIN");
+  const res = await seedDatabase(configs[1], client);
+  await client.query("COMMIT");
+  client.release();
   pool.end();
+  console.log("END", performance.now());
 };
 
 main();

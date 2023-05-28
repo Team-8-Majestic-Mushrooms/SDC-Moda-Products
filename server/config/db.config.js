@@ -4,11 +4,9 @@ module.exports = {
   PASSWORD: "123456",
   DB: "sdcdb",
   PORT: 5432,
-  dialect: "postgres",
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
+  DIALECT: "postgres",
+  POOL: {
+    max: 20,
     idle: 10000,
   },
 };
