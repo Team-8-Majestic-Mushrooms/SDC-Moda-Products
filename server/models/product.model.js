@@ -1,7 +1,7 @@
 const { pool } = require('./index');
 
 module.exports.getAll = (page, count) => {
-  const queryStr = 'SELECT * FROM product LIMIT $2 OFFSET (($1 - 1) * $2)';
+  const queryStr = 'SELECT * FROM product ORDER BY id LIMIT $2 OFFSET (($1 - 1) * $2)';
   return pool
     .query(queryStr, [page, count])
     .then((queryRes) => queryRes.rows)
