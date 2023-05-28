@@ -1,4 +1,4 @@
-const pool = require("./index.js").pool;
+const { pool } = require('./index');
 
 module.exports.getAll = (productId) => {
   const queryStr = `SELECT style.id AS style_id, name, original_price, sale_price, default_style AS default, \
@@ -15,6 +15,6 @@ module.exports.getAll = (productId) => {
     .query(queryStr)
     .then((queryRes) => queryRes.rows)
     .catch((err) => {
-      console.error("Query failed - get all styles", err.message);
+      console.error('Query failed - get all styles', err.message);
     });
 };

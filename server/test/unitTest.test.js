@@ -1,11 +1,9 @@
-const dbConfig = require("../config/db.config.js");
-const supertest = require("supertest");
-const { Pool } = require("pg");
-const server = require("../index.js");
-const { mockProducts, mockStyles, mockRelated } = require("./mockDBData.js");
-const { product } = require("../controllers");
+const supertest = require('supertest');
+const { Pool } = require('pg');
+const server = require('../index');
+const { mockProducts, mockStyles, mockRelated } = require('./mockDBData');
 
-jest.mock("pg", () => {
+jest.mock('pg', () => {
   const mockPool = {
     query: undefined,
   };
@@ -13,7 +11,7 @@ jest.mock("pg", () => {
 });
 
 // Server should be able to handle client's request and send query to database
-describe("Server Unit test", () => {
+describe('Server Unit test', () => {
   let pool;
 
   beforeEach(() => {
@@ -24,10 +22,10 @@ describe("Server Unit test", () => {
     // jest.clearAllMocks();
   });
 
-  it("GET /products should have correct route and response with correct data", (done) => {
+  it('GET /products should have correct route and response with correct data', (done) => {
     pool.query = () => Promise.resolve({ rows: mockProducts });
     supertest(server)
-      .get("/products")
+      .get('/products')
       .then((response) => {
         const products = JSON.parse(response.text);
         expect(response.status).toBe(200);
@@ -37,11 +35,11 @@ describe("Server Unit test", () => {
       });
   });
 
-  it("GET /products/:product_id should have correct route and response with correct data", (done) => {
+  it('GET /products/:product_id should have correct route and response with correct data', (done) => {
     pool.query = () => Promise.resolve({ rows: [mockProducts[0]] });
-    const product_id = "485620";
+    const productID = '485620';
     supertest(server)
-      .get(`/products/${product_id}`)
+      .get(`/products/${productID}`)
       .then((response) => {
         const product = JSON.parse(response.text);
         expect(response.status).toBe(200);
@@ -50,26 +48,25 @@ describe("Server Unit test", () => {
       });
   });
 
-  it("GET /products/:product_id/styles should have correct route and response with correct data", (done) => {
+  it('GET /products/:product_id/styles should have correct route and response with correct data', (done) => {
     pool.query = () => Promise.resolve({ rows: mockStyles });
-    const product_id = "34223";
+    const productID = '34223';
     supertest(server)
-      .get(`/products/${product_id}/styles`)
+      .get(`/products/${productID}/styles`)
       .then((response) => {
         const products = JSON.parse(response.text);
         expect(response.status).toBe(200);
-        expect(products.product_id).toBe("34223");
+        expect(products.product_id).toBe('34223');
         expect(products.results).toHaveLength(2);
         done();
       });
   });
 
-  it("GET /products/:product_id/related should have correct route and response with correct data", (done) => {
-    pool.query = () =>
-      Promise.resolve({ rows: [{ related_products: mockRelated }] });
-    const product_id = "5";
+  it('GET /products/:product_id/related should have correct route and response with correct data', (done) => {
+    pool.query = () => Promise.resolve({ rows: [{ related_products: mockRelated }] });
+    const productID = '5';
     supertest(server)
-      .get(`/products/${product_id}/related`)
+      .get(`/products/${productID}/related`)
       .then((response) => {
         const products = JSON.parse(response.text);
         expect(response.status).toBe(200);

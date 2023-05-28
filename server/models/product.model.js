@@ -1,16 +1,12 @@
-const { pool } = require("./index.js");
+const { pool } = require('./index');
 
 module.exports.getAll = (page, count) => {
-  const queryStr =
-    "SELECT * \
-      FROM product \
-      LIMIT $2 \
-      OFFSET (($1 - 1) * $2)";
+  const queryStr = 'SELECT * FROM product LIMIT $2 OFFSET (($1 - 1) * $2)';
   return pool
     .query(queryStr, [page, count])
     .then((queryRes) => queryRes.rows)
     .catch((err) => {
-      console.error("Query failed: get all products", err.message);
+      console.error('Query failed: get all products', err.message);
     });
 };
 
@@ -27,6 +23,6 @@ module.exports.getOne = (id) => {
     .query(queryStr)
     .then((queryRes) => queryRes.rows)
     .catch((err) => {
-      console.error("Query failed: get product", err.message);
+      console.error('Query failed: get product', err.message);
     });
 };

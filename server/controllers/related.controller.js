@@ -1,4 +1,4 @@
-const models = require("../models");
+const models = require('../models');
 
 module.exports.getAll = (req, res) => {
   const id = req.params.product_id;
@@ -7,7 +7,7 @@ module.exports.getAll = (req, res) => {
     .then((data) => {
       res.status(200).json(data);
     })
-    .catch((err) => {
+    .catch(() => {
       res.sendStatus(400);
     });
 };

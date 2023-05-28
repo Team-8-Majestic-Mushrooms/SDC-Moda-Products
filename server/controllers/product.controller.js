@@ -1,4 +1,4 @@
-const models = require("../models");
+const models = require('../models');
 
 module.exports.getAll = (req, res) => {
   const page = req.query.page ? Number(req.query.page) : 1;
@@ -15,7 +15,7 @@ module.exports.getOne = (req, res) => {
     .then((data) => {
       res.status(200).json(data[0]);
     })
-    .catch((err) => {
+    .catch(() => {
       res.sendStatus(400);
     });
 };
