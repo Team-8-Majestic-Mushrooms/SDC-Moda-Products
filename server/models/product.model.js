@@ -21,7 +21,7 @@ module.exports.getOne = (id) => {
       GROUP BY product.id`;
   return pool
     .query(queryStr)
-    .then((queryRes) => queryRes.rows)
+    .then((queryRes) => queryRes.rows[0])
     .catch((err) => {
       console.error('Query failed: get product', err.message);
     });

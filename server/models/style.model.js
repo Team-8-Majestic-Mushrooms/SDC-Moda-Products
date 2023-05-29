@@ -14,6 +14,16 @@ module.exports.getAll = (productId) => {
   return pool
     .query(queryStr)
     .then((queryRes) => queryRes.rows)
+    .then((rows) => {
+      const data = {
+        product_id: productId,
+        results: [],
+      };
+      rows.forEach((row) => {
+        data.results.push(row);
+      });
+      return data;
+    })
     .catch((err) => {
       console.error('Query failed - get all styles', err.message);
     });

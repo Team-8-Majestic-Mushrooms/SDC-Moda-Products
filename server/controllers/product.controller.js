@@ -13,7 +13,7 @@ module.exports.getOne = (req, res) => {
   models.product
     .getOne(id)
     .then((data) => {
-      res.status(200).json(data[0]);
+      res.status(200).json(data);
     })
     .catch(() => {
       res.sendStatus(400);
