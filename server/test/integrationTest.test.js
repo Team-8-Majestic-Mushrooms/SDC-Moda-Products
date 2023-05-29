@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 const supertest = require('supertest');
-const dbConfig = require('../../db/config/db.config');
+const dbConfig = require('../db/config/db.config');
 const server = require('../index');
 
 describe('Server integration test', () => {
