@@ -1,10 +1,12 @@
-const controller = require("./controllers");
-const router = require("express").Router();
+const router = require('express').Router();
+const productController = require('./controllers/product.controller');
+const styleController = require('./controllers/style.controller');
+const relatedController = require('./controllers/related.controller');
 
 // Connect controller methods to corresponding routes
-router.get("/", controller.product.getAll);
-router.get("/:product_id", controller.product.getOne);
-router.get("/:product_id/styles", controller.style.getAll);
-router.get("/:product_id/related", controller.related.getAll);
+router.get('/', productController.getAll);
+router.get('/:product_id', productController.getOne);
+router.get('/:product_id/styles', styleController.getAll);
+router.get('/:product_id/related', relatedController.getAll);
 
 module.exports = router;

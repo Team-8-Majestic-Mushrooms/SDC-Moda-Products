@@ -1,4 +1,4 @@
-const { pool } = require('./index');
+const { pool } = require('../../db');
 
 module.exports.getAll = (id) => {
   const queryStr = `SELECT jsonb_agg(related_product_id) as related_products \

@@ -1,8 +1,8 @@
-const models = require('../models');
+const relatedModel = require('../models/related.model');
 
 module.exports.getAll = (req, res) => {
   const id = req.params.product_id;
-  models.related
+  relatedModel
     .getAll(id)
     .then((data) => {
       res.status(200).json(data);

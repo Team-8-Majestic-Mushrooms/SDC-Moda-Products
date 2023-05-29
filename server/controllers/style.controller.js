@@ -1,8 +1,8 @@
-const models = require('../models');
+const styleModel = require('../models/style.model');
 
 module.exports.getAll = (req, res) => {
   const productId = req.params.product_id;
-  models.style
+  styleModel
     .getAll(productId)
     .then((data) => {
       res.status(200).json(data);

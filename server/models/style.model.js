@@ -1,4 +1,4 @@
-const { pool } = require('./index');
+const { pool } = require('../../db');
 
 module.exports.getAll = (productId) => {
   const queryStr = `SELECT style.id AS style_id, name, original_price, sale_price, default_style AS default, \

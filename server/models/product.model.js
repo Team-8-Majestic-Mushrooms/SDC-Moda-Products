@@ -1,4 +1,4 @@
-const { pool } = require('./index');
+const { pool } = require('../../db');
 
 module.exports.getAll = (page, count) => {
   const queryStr = 'SELECT * FROM product ORDER BY id LIMIT $2 OFFSET (($1 - 1) * $2)';

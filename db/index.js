@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const dbConfig = require('../config/db.config');
+const dbConfig = require('./config/db.config');
 
 module.exports.pool = new Pool({
   host: dbConfig.HOST,
@@ -10,7 +10,3 @@ module.exports.pool = new Pool({
   max: dbConfig.POOL.max,
   idleTimeoutMillis: dbConfig.POOL.idle,
 });
-
-module.exports.product = require('./product.model');
-module.exports.style = require('./style.model');
-module.exports.related = require('./related.model');

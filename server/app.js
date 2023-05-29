@@ -1,4 +1,4 @@
-const app = require('./index');
+const app = require('.');
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

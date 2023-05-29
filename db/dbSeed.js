@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { parse } = require('csv-parse');
-const { pool } = require('./models');
+const { pool } = require('.');
 
 const configs = [
   {
