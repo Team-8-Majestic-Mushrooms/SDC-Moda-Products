@@ -22,10 +22,10 @@ describe('Server Unit test', () => {
     // jest.clearAllMocks();
   });
 
-  it('GET /products should have correct route and response with correct data', (done) => {
+  it('GET /api/products should have correct route and response with correct data', (done) => {
     pool.query = () => Promise.resolve({ rows: mockProducts });
     supertest(server)
-      .get('/products')
+      .get('/api/products')
       .then((response) => {
         const products = JSON.parse(response.text);
         expect(response.status).toBe(200);
@@ -35,11 +35,11 @@ describe('Server Unit test', () => {
       });
   });
 
-  it('GET /products/:product_id should have correct route and response with correct data', (done) => {
+  it('GET /api/products/:product_id should have correct route and response with correct data', (done) => {
     pool.query = () => Promise.resolve({ rows: [mockProducts[0]] });
     const productID = '485620';
     supertest(server)
-      .get(`/products/${productID}`)
+      .get(`/api/products/${productID}`)
       .then((response) => {
         const product = JSON.parse(response.text);
         expect(response.status).toBe(200);
@@ -48,11 +48,11 @@ describe('Server Unit test', () => {
       });
   });
 
-  it('GET /products/:product_id/styles should have correct route and response with correct data', (done) => {
+  it('GET /api/products/:product_id/styles should have correct route and response with correct data', (done) => {
     pool.query = () => Promise.resolve({ rows: mockStyles });
     const productID = '34223';
     supertest(server)
-      .get(`/products/${productID}/styles`)
+      .get(`/api/products/${productID}/styles`)
       .then((response) => {
         const products = JSON.parse(response.text);
         expect(response.status).toBe(200);
@@ -62,11 +62,11 @@ describe('Server Unit test', () => {
       });
   });
 
-  it('GET /products/:product_id/related should have correct route and response with correct data', (done) => {
+  it('GET /api/products/:product_id/related should have correct route and response with correct data', (done) => {
     pool.query = () => Promise.resolve({ rows: [{ related_products: mockRelated }] });
     const productID = '5';
     supertest(server)
-      .get(`/products/${productID}/related`)
+      .get(`/api/products/${productID}/related`)
       .then((response) => {
         const products = JSON.parse(response.text);
         expect(response.status).toBe(200);

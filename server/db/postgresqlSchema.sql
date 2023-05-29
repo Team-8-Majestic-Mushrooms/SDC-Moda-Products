@@ -25,6 +25,7 @@ CREATE TABLE feature (
     FOREIGN KEY(product_id)
       REFERENCES product(id)
 );
+CREATE INDEX on feature (product_id);
 
 CREATE TABLE related (
   id INT PRIMARY KEY NOT NULL,
@@ -34,6 +35,7 @@ CREATE TABLE related (
     FOREIGN KEY(current_product_id)
       REFERENCES product(id)
 );
+CREATE INDEX on related (current_product_id);
 
 CREATE TABLE style (
   id INT PRIMARY KEY NOT NULL,
@@ -48,16 +50,18 @@ CREATE TABLE style (
     FOREIGN KEY(product_id)
       REFERENCES product(id)
 );
+CREATE INDEX on style (product_id);
 
 CREATE TABLE photo (
   id INT PRIMARY KEY NOT NULL,
-  thumbnail_url VARCHAR(255),
-  url VARCHAR(255),
+  thumbnail_url TEXT,
+  url TEXT,
   style_id INT NOT NULL,
   CONSTRAINT fk_style
     FOREIGN KEY(style_id)
       REFERENCES style(id)
 );
+CREATE INDEX on photo (style_id);
 
 CREATE TABLE sku (
   id INT PRIMARY KEY NOT NULL,
@@ -68,6 +72,7 @@ CREATE TABLE sku (
     FOREIGN KEY(style_id)
       REFERENCES style(id)
 );
+CREATE INDEX on sku (style_id);
 
 
 

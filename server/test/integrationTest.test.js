@@ -23,9 +23,9 @@ describe('Server integration test', () => {
     subscription.close();
   });
 
-  it('GET /products should have correct route and response with correct data', (done) => {
+  it('GET /api/products should have correct route and response with correct data', (done) => {
     supertest(server)
-      .get('/products')
+      .get('/api/products')
       .expect(200)
       .then((response) => {
         const products = JSON.parse(response.text);
@@ -34,9 +34,9 @@ describe('Server integration test', () => {
       });
   });
 
-  it('GET /products should handle pagination correctly', (done) => {
+  it('GET /api/products should handle pagination correctly', (done) => {
     supertest(server)
-      .get('/products')
+      .get('/api/products')
       .query({ page: 2, count: 2 })
       .expect(200)
       .then((response) => {
@@ -47,10 +47,10 @@ describe('Server integration test', () => {
       });
   });
 
-  it('GET /products/:product_id should have correct route and response with correct data', (done) => {
+  it('GET /api/products/:product_id should have correct route and response with correct data', (done) => {
     const productID = '485620';
     supertest(server)
-      .get(`/products/${productID}`)
+      .get(`/api/products/${productID}`)
       .then((response) => {
         const product = JSON.parse(response.text);
         expect(response.status).toBe(200);
@@ -58,10 +58,10 @@ describe('Server integration test', () => {
         done();
       });
   });
-  it('GET /products/:product_id/styles should have correct route and response with correct data', (done) => {
+  it('GET /api/products/:product_id/styles should have correct route and response with correct data', (done) => {
     const productID = '34223';
     supertest(server)
-      .get(`/products/${productID}/styles`)
+      .get(`/api/products/${productID}/styles`)
       .then((response) => {
         const products = JSON.parse(response.text);
         expect(response.status).toBe(200);
@@ -71,10 +71,10 @@ describe('Server integration test', () => {
       });
   });
 
-  it('GET /products/:product_id/related should have correct route and response with correct data', (done) => {
+  it('GET /api/products/:product_id/related should have correct route and response with correct data', (done) => {
     const productID = '34223';
     supertest(server)
-      .get(`/products/${productID}/related`)
+      .get(`/api/products/${productID}/related`)
       .then((response) => {
         const products = JSON.parse(response.text);
         expect(response.status).toBe(200);

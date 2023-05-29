@@ -4,6 +4,8 @@
 package sdc.java;
 
 import java.io.FileInputStream;
+import com.opencsv.CSVReader;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.Scanner;
@@ -21,15 +23,16 @@ public class App {
                 "/Users/xintongmi/code/hack-reactor/RFP2303/sdc-moda-products/seeds/skus.csv",
                 "/Users/xintongmi/code/hack-reactor/RFP2303/sdc-moda-products/seeds/photos.csv",};
         String[] queryStrs = {
-                "INSERT INTO product (id, name, slogan, description, category, default_price, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,)",
+                "INSERT INTO product (id, name, slogan, description, category, default_price, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?)",
                 "INSERT INTO feature (id, product_id, feature, value) VALUES (?,?,?,?)",
                 "INSERT INTO related (id, current_product_id, related_product_id) VALUES (?,?,?)",
                 "INSERT INTO style (id, product_id, name, sale_price, original_price, default_style, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?)",
                 "INSERT INTO sku (id, style_id, size, quantity) VALUES (?,?,?,?)",
                 "INSERT INTO photo (id, style_id, url, thumbnail_url) VALUES (?,?,?,?)"};
-        for (int i = 0; i < 6; i++) {
-            App.readCsv(i, filePaths[i], queryStrs[i]);
-        }
+                App.readCsv(5, filePaths[5], queryStrs[5]);
+        // for (int i = 0; i < 6; i++) {
+        //     App.readCsv(i, filePaths[i], queryStrs[i]);
+        // }
     }
 
     private static void readCsv(int index, String filePath, String queryStr) {
@@ -40,56 +43,64 @@ public class App {
                     prop.getProperty("db.user"), prop.getProperty("db.password"));
 
             // System.out.println(prop.getProperty("db.user"));
-            FileInputStream stream = new FileInputStream(filePath);
-            Scanner sc = new Scanner(stream);
+
+            // Create an object of filereader
+            FileReader filereader = new FileReader(filePath);
+
+            // create csvReader object passing file reader as a parameter
+            CSVReader csvReader = new CSVReader(filereader);
+            String[] fields;
             Boolean firstline = true;
-            while (sc.hasNextLine()) {
-                String row = sc.nextLine();
+            while ((fields = csvReader.readNext()) != null) {
                 if (firstline) {
                     firstline = false;
                     continue;
                 }
-                String[] cols = row.split(",");
                 PreparedStatement state = conn.prepareStatement(queryStr);
                 if (index == 0) {
-                    state.setInt(1, Integer.valueOf(cols[0]));
-                    state.setString(2, cols[1]);
-                    state.setString(3, cols[2]);
-                    state.setString(4, cols[3]);
-                    state.setString(5, cols[4]);
-                    state.setFloat(6, Float.parseFloat(cols[5]));
+                    state.setInt(1, Integer.valueOf(fields[0]));
+                    state.setString(2, fields[1]);
+                    state.setString(3, fields[2]);
+                    state.setString(4, fields[3]);
+                    state.setString(5, fields[4]);
+                    state.setFloat(6, Float.parseFloat(fields[5]));
                     state.setTimestamp(7, Timestamp.from(Instant.now()));
                     state.setTimestamp(8, Timestamp.from(Instant.now()));
+                } else if (index == 1) {
+                    state.setInt(1, Integer.valueOf(fields[0]));
+                    state.setInt(2, Integer.valueOf(fields[1]));
+                    state.setString(3, fields[2]);
+                    state.setString(4, fields[3]);
                 } else if (index == 2) {
-                    state.setInt(1, Integer.valueOf(cols[0]));
-                    state.setInt(2, Integer.valueOf(cols[1]));
-                    state.setString(3, cols[2]);
-                    state.setString(4, cols[3]);
+                    state.setInt(1, Integer.valueOf(fields[0]));
+                    state.setInt(2, Integer.valueOf(fields[1]));
+                    state.setInt(3, Integer.valueOf(fields[2]));
                 } else if (index == 3) {
-                    state.setInt(1, Integer.valueOf(cols[0]));
-                    state.setInt(2, Integer.valueOf(cols[1]));
-                    state.setString(3, cols[2]);
-                    if (cols[3].equals("null")) {
+                    state.setInt(1, Integer.valueOf(fields[0]));
+                    state.setInt(2, Integer.valueOf(fields[1]));
+                    state.setString(3, fields[2]);
+                    if (fields[3].equals("null")) {
                         state.setNull(4, Types.FLOAT);
                     } else {
-                        state.setFloat(4, Float.parseFloat(cols[3]));
+                        state.setFloat(4, Float.parseFloat(fields[3]));
                     }
-                    state.setFloat(5, Float.parseFloat(cols[4]));
-                    state.setBoolean(6, cols[5].equals("null"));
+                    state.setFloat(5, Float.parseFloat(fields[4]));
+                    state.setBoolean(6, fields[5].equals("null"));
+                    state.setTimestamp(7, Timestamp.from(Instant.now()));
+                    state.setTimestamp(8, Timestamp.from(Instant.now()));
                 } else if (index == 4) {
-                    state.setInt(1, Integer.valueOf(cols[0].replaceAll("\\s", "")));
-                    state.setInt(2, Integer.valueOf(cols[1].replaceAll("\\s", "")));
-                    state.setString(3, cols[2]);
-                    state.setInt(4, Integer.valueOf(cols[3].replaceAll("\\s", "")));
+                    state.setInt(1, Integer.valueOf(fields[0].replaceAll("\\s", "")));
+                    state.setInt(2, Integer.valueOf(fields[1].replaceAll("\\s", "")));
+                    state.setString(3, fields[2]);
+                    state.setInt(4, Integer.valueOf(fields[3].replaceAll("\\s", "")));
                 } else if (index == 5) {
-                    state.setInt(1, Integer.valueOf(cols[0].replaceAll("\\s", "")));
-                    state.setInt(2, Integer.valueOf(cols[1].replaceAll("\\s", "")));
-                    state.setString(3, cols[2]);
-                    state.setString(4, cols[3]);
+                    state.setInt(1, Integer.valueOf(fields[0].replaceAll("\\s", "")));
+                    state.setInt(2, Integer.valueOf(fields[1].replaceAll("\\s", "")));
+                    state.setString(3, fields[2]);
+                    state.setString(4, fields[3]);
                 }
                 state.executeUpdate();
             }
-            sc.close();
         } catch (Exception e) {
             System.out.println(e);
         }
