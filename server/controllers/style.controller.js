@@ -7,7 +7,7 @@ module.exports.getAll = (req, res) => {
     .then((data) => {
       res.status(200).json(data);
     })
-    .catch((err) => {
+    .catch(() => {
       res.sendStatus(400);
     });
 };

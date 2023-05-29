@@ -25,6 +25,6 @@ module.exports.getAll = (productId) => {
       return data;
     })
     .catch((err) => {
-      console.error('Query failed - get all styles', err.message);
+      console.error('Query failed: get all styles', err.message);
     });
 };
