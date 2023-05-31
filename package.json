@@ -1,0 +1,41 @@
+{
+  "name": "sdc-moda-products",
+  "version": "1.0.0",
+  "description": "Server and database of E-Commerce products API",
+  "main": "index.js",
+  "scripts": {
+    "db-init": "psql -U sdcadmin -d sdcdb -a -f server/postgresqlSchema.sql",
+    "db-seed": "node server/dbSeed.js --max_old_space_size=7000",
+    "server-dev": "npx nodemon --watch server server/app.js",
+    "server-try": "node --trace-warnings server/app.js",
+    "test": "jest --forceExit"
+  },
+  "author": "Xintong Mi",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "cors": "^2.8.5",
+    "csv-parse": "^5.3.10",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jest": "^29.5.0",
+    "nodemon": "^2.0.22",
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.41.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.8.8",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverage": true
+  }
+}
