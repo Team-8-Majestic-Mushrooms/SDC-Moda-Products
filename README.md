@@ -11,11 +11,12 @@ In this project, I designed and implemented the backend of an e-commerce platfor
 [![Amazon AWS](https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 [![Jest](https://img.shields.io/badge/Jest-323330?style=for-the-badge&logo=Jest&logoColor=white)](https://jestjs.io/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-
+[![Trello](https://img.shields.io/badge/Trello-0052CC.svg?style=for-the-badge&logo=Trello&logoColor=white)](https://trello.com/)
 
 ## Wins and Improvements
 
 <a href="https://ibb.co/M2RYx6x"><img src="https://i.ibb.co/RvCxkyk/Screen-Shot-2023-06-21-at-10-19-54.png" alt="Screen-Shot-2023-06-21-at-10-19-54" border="0"></a>
 
 - Performed ETL with Java to seed the database with 25 million records in 40 min.
-- 
+- Containerized the server and database with Docker and deployed them on AWS EC2. Conducted load tests with Loader.io and New Relic to identify performance bottlenecks.
+- Scaled out the backend with an HAProxy load balancer and six servers, achieving a throughput increase from 1000 to 10000 QPS with 70 ms average latency and 0.3% error rate.
