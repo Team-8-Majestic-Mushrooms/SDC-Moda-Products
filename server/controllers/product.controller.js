@@ -1,10 +1,10 @@
 const productModel = require('../models/product.model');
 
 module.exports.getAll = (req, res) => {
-  const page = req.query.page ? Number(req.query.page) : 1;
-  const count = req.query.count ? Number(req.query.count) : 5;
+  const pageSize = req.query.pageSize ? Number(req.query.pageSize) : 5;
+  const pageToken = req.query.pageToken;
   productModel
-    .getAll(page, count)
+    .getAll(pageSize, pageToken)
     .then((data) => {
       res.status(200).json(data);
     })
