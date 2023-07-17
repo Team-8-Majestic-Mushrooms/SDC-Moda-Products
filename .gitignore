@@ -4,3 +4,6 @@ seeds
 
 coverage
 sdc_data.sql
+
+# redis
+dump.rdb
